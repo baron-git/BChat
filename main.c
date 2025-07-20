@@ -8,6 +8,7 @@
 #include "third-party/tiny-AES-c/aes.h" // AES encryption/decryption
 #include "third-party/monocypher/src/monocypher.h" // Monocypher: Cryptographic library for encryption/decryption (used for key exchange)
 #include "third-party/civetweb/include/civetweb.h" // CivetWeb: Web server library
+#include "third-party/randombytes/randombytes.h" // Random bytes generation
 
 #define LIBCMDF_IMPL
 #include "third-party/libcmdf/libcmdf.h" // Command line argument parsing
@@ -151,8 +152,25 @@ static int handler(struct mg_connection *conn, void *ignored) {
 	return 200; /* HTTP state 200 = OK */
 }
 
+void gen_random() {
+    // Generate some random bytes and print them in hex
+    int ret;
+    uint8_t buf[20];
+    size_t i;
+
+    ret = randombytes(&buf[0], sizeof(buf));
+    if (ret != 0) {
+        printf("Error in 'randombytes'");
+    }    
+    for (i = 0; i < sizeof(buf); ++i) {
+        printf("%02hhx", buf[i]);
+    }
+    printf("\n");
+}
+
 
 int main(void) {
+    gen_random();
 
     // initialize the command line interface
     cmdf_init("BChat> ", INTRO, NULL, NULL, 0, 1);

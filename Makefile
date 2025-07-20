@@ -15,5 +15,5 @@ endif
 
 CFLAGS += -Ithird-party/civetweb/include
 
-BChat.out: main.c third-party/naett/naett.c third-party/civetweb/src/civetweb.c third-party/monocypher/src/monocypher.c
+BChat.out: main.c third-party/naett/naett.c third-party/civetweb/src/civetweb.c third-party/monocypher/src/monocypher.c third-party/randombytes/randombytes.c
 	gcc $^ -o $@ $(CFLAGS) $(LDFLAGS)
