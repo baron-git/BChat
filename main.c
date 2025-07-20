@@ -6,9 +6,7 @@
 #include "third-party/naett/naett.h" // naett: HTTP client library
 #include "third-party/des/des.h" // DES encryption/decryption
 #include "third-party/tiny-AES-c/aes.h" // AES encryption/decryption
-#include "third-party/random3/random3.h" // random3: Random number generation (cross-platform)
 #include "third-party/Monocypher/src/monocypher.h" // Monocypher: Cryptographic library for encryption/decryption (used for key exchange)
-
 #include "third-party/civetweb/include/civetweb.h" // CivetWeb: Web server library
 
 #define LIBCMDF_IMPL
