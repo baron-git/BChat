@@ -19,6 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+#define NO_SSL
 
 #if defined(__GNUC__) || defined(__MINGW32__)
 #ifndef GCC_VERSION
