@@ -1,1 +1,3 @@
 # BChat
+
+This is BChat.
