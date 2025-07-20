@@ -6,8 +6,9 @@
 #include "third-party/naett/naett.h" // naett: HTTP client library
 #include "third-party/des/des.h" // DES encryption/decryption
 #include "third-party/tiny-AES-c/aes.h" // AES encryption/decryption
-#include "third-party/Monocypher/src/monocypher.h" // Monocypher: Cryptographic library for encryption/decryption (used for key exchange)
+#include "third-party/monocypher/src/monocypher.h" // Monocypher: Cryptographic library for encryption/decryption (used for key exchange)
 #include "third-party/civetweb/include/civetweb.h" // CivetWeb: Web server library
+#include "third-party/randombytes/include/randombytes.h" // Randombytes: Library for generating random bytes
 
 #define LIBCMDF_IMPL
 #include "third-party/libcmdf/libcmdf.h" // Command line argument parsing
@@ -151,8 +152,13 @@ static int handler(struct mg_connection *conn, void *ignored) {
 	return 200; /* HTTP state 200 = OK */
 }
 
-int main(void) {
+void gen_random() {
+    uint32_t randombytes = randombytes_random();
+    printf("Generated random bytes: %u\n", randombytes);
+}
 
+int main(void) {
+    gen_random(); // generate random bytes for key exchange
 
     // initialize the command line interface
     cmdf_init("BChat> ", INTRO, NULL, NULL, 0, 1);
