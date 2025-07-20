@@ -163,7 +163,7 @@ void gen_random() {
         printf("Error in 'randombytes'");
     }    
     for (i = 0; i < sizeof(buf); ++i) {
-        printf("%02hhx", buf[i]);
+        printf("%02hhx ", buf[i]);
     }
     printf("\n");
 }
