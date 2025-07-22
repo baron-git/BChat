@@ -135,6 +135,7 @@ static CMDF_RETURN do_chat(cmdf_arglist *arglist) {
     }
 
     printf("Attempting to establish chat connection with %s...\n", chat_user);
+    
 
     return CMDF_OK;
 }
@@ -152,25 +153,50 @@ static int handler(struct mg_connection *conn, void *ignored) {
 	return 200; /* HTTP state 200 = OK */
 }
 
-void gen_random() {
-    // Generate some random bytes and print them in hex
-    int ret;
-    uint8_t buf[20];
-    size_t i;
-
-    ret = randombytes(&buf[0], sizeof(buf));
-    if (ret != 0) {
-        printf("Error in 'randombytes'");
-    }    
-    for (i = 0; i < sizeof(buf); ++i) {
-        printf("%02hhx ", buf[i]);
+uint64_t uint8_to_uint64(const uint8_t *bytes) {
+    uint64_t value = 0;
+    for (int i = 0; i < 8; i++) {
+        value = (value << 8) | bytes[i];
     }
-    printf("\n");
+    return value;
+}
+
+uint64_t des_test_encrypt(uint64_t key, uint64_t input) {
+    // Test the DES encryption
+    uint64_t encrypted = des(input, key, 'e');
+    printf("DES Encryption:\n");
+    printf("Input: 0x%016llx\n", input);
+    printf("Key: 0x%016llx\n", key);
+    printf("Encrypted: 0x%016llx\n", encrypted);
+    return encrypted;
+}
+
+uint64_t des_test_decrypt(uint64_t key, uint64_t input) {
+    // Test the DES decryption
+    uint64_t decrypted = des(input, key, 'd');
+    printf("DES Decryption:\n");
+    printf("Input: 0x%016llx\n", input);
+    printf("Key: 0x%016llx\n", key);
+    printf("Decrypted: 0x%016llx\n", decrypted);
+    return decrypted;
 }
 
 
 int main(void) {
-    gen_random();
+    uint8_t key[8];
+    int ret = randombytes(&key[0], sizeof(key));
+    if (ret != 0) {
+        printf("Error in 'randombytes'\n");
+    }
+    uint64_t key64 = 0;
+
+    for (int i = 0; i < 8; i++) {
+        key64 = (key64 << 8) | key[i];
+    }
+    
+    uint64_t input = 0x0123456789abcdef; // Example input for DES encryption/decryption
+    uint64_t encrypted = des_test_encrypt(key64, input);
+    uint64_t decrypted = des_test_decrypt(key64, encrypted);
 
     // initialize the command line interface
     cmdf_init("BChat> ", INTRO, NULL, NULL, 0, 1);
